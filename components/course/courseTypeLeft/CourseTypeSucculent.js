@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './CourseTypeSucculent.scss'
 import { devUrl } from '../../../config/index'
 import { Button } from 'react-bootstrap'
@@ -6,6 +6,14 @@ import CourseBlockOne from '../courseBlockOne/CourseBlockOne'
 import CourseBlockTwo from '../courseBlockTwo/CourseBlockTwo'
 
 function CourseTypeSucculent(props) {
+  const { type, setType } = useState()
+  // props.setClickType(type)
+  console.log(type)
+
+  //傳回上層
+  // useEffect(() => {
+  //   props.setClickType(type)
+  // }, [type])
   return (
     <div className="r-course-guide r-type-succulent">
       <div className="title">
@@ -16,6 +24,7 @@ function CourseTypeSucculent(props) {
         <CourseBlockOne
           imgUrl1={'/images/course/course-guide/demo_succulents1.jpg'}
           type={props.type}
+          setType={setType}
         />
         {/* <div className="block_one">
           <img
@@ -30,6 +39,7 @@ function CourseTypeSucculent(props) {
           imgUrl2={'/images/course/course-guide/demo_succulents2.jpg'}
           imgUrl3={'/images/course/course-guide/demo_succulents3.jpg'}
           type={props.type}
+          setType={setType}
         />
         {/* <div className="block_two">
           <div className="wrapper" style={{ marginBottom: '25px' }}>

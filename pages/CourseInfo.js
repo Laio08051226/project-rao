@@ -4,35 +4,77 @@ import './CourseInfo.scss'
 import { withRouter } from 'react-router-dom'
 // import data from '../data'//測試用
 import { devUrl } from '../config/index'
+import Axios from 'axios'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 //載入元件
 // import TestBreadcrumb from '../components/main/TestBreadcrumb/TestBreadcrumb'
 import CourseMonth from '../components/course/courseMonth/CourseMonth'
 import ScrollTop from '../components/main/ScrollTop/ScrollTop'
-import Axios from 'axios'
+
+const MySwal = withReactContent(Swal)
 
 function CourseInfo(props) {
-  console.log(props)
-  console.log(props.match.params.id)
+  // console.log(props)
 
   //設一個useState準備接收API資料
   const [course, setCourse] = useState([])
-
+  const [bookStatue, setBookStatue] = useState()
   //因為有"陣列"的資料，要再從course解構賦值出來，沒有陣列的資料則不需要做這一步(直接用-> coures .  yourDataName)
-  const { date, learn_text, work_text } = course
+  const { learn_text, work_text } = course
+
+  //預約課程
+  async function booking() {
+    // 要使用try-catch來作錯誤處理
+    try {
+      // 從伺服器得到資料
+      const response = await Axios.patch(
+        `http://localhost:3001/courses/booking/${props.match.params.id}`
+      )
+      console.log(response)
+      // console.log(response.data)
+
+      // 有資料的話
+      if (response.data) {
+        MySwal.fire({
+          icon: 'success',
+          title: '預約成功',
+          confirmButtonText: 'OK',
+          html:
+            '可至<a href="/course">會員中心</a>查看預約訊息， ' +
+            '<br>同時寄出<b>通知信</b>至您的註冊信箱',
+        }).then(() => {
+          window.location.reload()
+        })
+      }
+    } catch (error) {
+      // 發生錯誤的處理情況
+      MySwal.fire({
+        icon: 'error',
+        title: '預約失敗',
+        text: '伺服器忙碌中，請稍後嘗試',
+      })
+      console.log(error)
+    }
+  }
 
   //抓取從後端丟出來的API路徑資料
   useEffect(() => {
-    // let isMounted = true
-    Axios.get(`http://localhost:3001/courses/${props.match.params.id}`)
+    let member_id = 1
+    // let url = `http://localhost:3001/courses/${props.match.params.id}` //not login
+    let url = `http://localhost:3001/courses/${props.match.params.id}/${member_id}` //login
+    Axios.get(url)
       .then((response) => {
-        console.log(response)
-        // console.log(response.data)
+        console.log(response.data)
+        console.log(response.data.member_course_booking)
+        setBookStatue(response.data.member_course_booking)
         setCourse(response.data)
       })
       .catch((error) => console.log(error))
   }, [])
 
+  useEffect(() => {})
   return (
     <>
       <div className="r-container" key={course._id}>
@@ -79,11 +121,8 @@ function CourseInfo(props) {
                 <h4>課程資訊</h4>
                 <div className="box">
                   <ul style={{ listStyleType: 'none' }}>
-                    <li>
-                      課程日期: {date && date.map((item) => item)}
-                      (可由右方小視窗選擇)
-                    </li>
-                    <li>課程時間: {course.hours}小時</li>
+                    <li>課程日期: {course.date}</li>
+                    <li>課程時間: {course.hours}</li>
                     <li>
                       課程費用: {course.price}
                       元(含所有材料、工具費、師資費用，無需再付額外費用。)
@@ -144,13 +183,8 @@ function CourseInfo(props) {
                 </div>
                 <div className="book-content">
                   <ul>
-                    <li>
-                      日期: 2020/12/25(14:00){' '}
-                      <i
-                        className="far fa-calendar-alt"
-                        style={{ fontSize: '22px' }}
-                      ></i>
-                    </li>
+                    <li>日期: {course.date}</li>
+                    <li>時間: {course.hours}</li>
                     <li>費用: {course.price}元</li>
                     <li>講師: {course.teacher}</li>
                     <li>地點: 植園手作坊</li>
@@ -159,9 +193,23 @@ function CourseInfo(props) {
                       剩餘名額: <span>{course.people}</span>
                     </li>
                   </ul>
-                  <a type="button" className="button mx-auto">
-                    預約報名
-                  </a>
+                  <button
+                    type="button"
+                    className={bookStatue ? 'booked' : 'default'}
+                    disabled={
+                      bookStatue || course.people === 0 ? 'disabled' : ''
+                    }
+                    onClick={() => {
+                      //先判斷有無登入
+                      booking()
+                    }}
+                  >
+                    {course.people === 0
+                      ? '已額滿'
+                      : bookStatue === true
+                      ? '已預約'
+                      : '預約報名'}
+                  </button>
                 </div>
               </div>
             </div>

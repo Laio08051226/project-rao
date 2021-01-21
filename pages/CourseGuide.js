@@ -1,6 +1,4 @@
-import React from 'react'
-// import MyBreadcrumb from '../components/main/MyBreadcrumb/MyBreadcrumb'
-// import { renderRoutes, matchRoutes } from 'react-router-config'
+import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 
 //元件匯入
@@ -18,16 +16,26 @@ import CoursePast from '../components/course/coursePast/CoursePast'
 
 function CourseGuide(props) {
   console.log(props)
+  // const { clickType, setClickType } = useState()
+  // console.log("Guide_page!" + clickType)
+
+  // useEffect(() => {
+  //   props.setFinalType(clickType)
+  // }, [clickType])
   return (
     <>
       <CourseBanner />
       <MainContent style={{ margin: '0 50%' }}>
         <Scroll />
         <ScrollTop />
+        {/* <CourseTypeSucculent type={'succlent'} setClickType={setClickType} /> */}
         <CourseTypeSucculent type={'succlent'} />
-        <CourseTypeBall />
-        <CourseTypeFlower />
-        <CourseTypePlant />
+        {/* <CourseTypeBall type={'ball'} setClickType={setClickType} /> */}
+        <CourseTypeBall type={'ball'} />
+        {/* <CourseTypeFlower type={'flower'} setClickType={setClickType} /> */}
+        <CourseTypeFlower type={'flower'} />
+        {/* <CourseTypePlant type={'plant'} setClickType={setClickType} /> */}
+        <CourseTypePlant type={'plant'} />
         <CourseBookingFlow />
         <CourseMonth />
         <CoursePast />

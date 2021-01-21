@@ -90,7 +90,7 @@
             width: 20%;
             // border: 1px solid blue;
             .position-sticky {
-                top: 130px;
+                top: 10px;
             }
             .book {
                 min-width: 280px;
@@ -98,6 +98,7 @@
                 border: 1px solid #dedede;
                 border-radius: 1px;
                 background: #fff;
+                position: relative;
                 
                 .book-title {
                     h4 {
@@ -116,17 +117,40 @@
                             color:#cf3131;
                         } 
                     }
-                    a {
+                    .default {
                         display: block;
                         width: 220px;
                         height: 50px;
                         background: #e58f80;
+                        border: 0;
                         color: #ffffff;
                         text-decoration: none;
                         text-align: center;
                         line-height: 50px;
-                        margin: 30px 0;
+                        margin: 5px 10px 30px 10px;
                     }
+                    .booked {
+                        width: 220px;
+                        height: 50px;
+                        background: #ccc;
+                        border: 0;
+                        color: #ffffff;
+                        text-decoration: none;
+                        text-align: center;
+                        line-height: 50px;
+                        margin: 5px 10px 30px 10px;
+                    }
+                    &:hover {
+                        & button {
+                            border: 0;
+                            opacity: .8;
+                        }
+                    }
+                }
+                .calendar-wrapper {
+                    position: absolute;
+                    top: 30%;
+                    left: 1%;
                 }
             }
         }

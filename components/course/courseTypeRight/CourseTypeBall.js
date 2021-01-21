@@ -1,11 +1,19 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './CourseTypeBall.scss'
 import { devUrl } from '../../../config/index'
 import { Button } from 'react-bootstrap'
 import CourseBlockOne from '../courseBlockOne/CourseBlockOne'
 import CourseBlockTwo from '../courseBlockTwo/CourseBlockTwo'
 
-function CourseTypeBall() {
+function CourseTypeBall(props) {
+  const { type, setType } = useState()
+  console.log(type)
+
+    //傳回上層
+  // useEffect(() => {
+  //   props.setClickType(type)
+  // }, [type])
+
   return (
     <div className="r-course-guide r-type-ball">
       <div className="title">
@@ -16,7 +24,8 @@ function CourseTypeBall() {
         <CourseBlockTwo
           imgUrl2={'/images/course/course-guide/demo_ball2.jpg'}
           imgUrl3={'/images/course/course-guide/demo_ball3.jpg'}
-          type={'ball'}
+          type={props.type}
+          setType={setType}
         />
         {/* <div className="block_two">
           <img
@@ -31,7 +40,8 @@ function CourseTypeBall() {
         </div> */}
         <CourseBlockOne
           imgUrl1={'/images/course/course-guide/demo_ball1.jpg'}
-          type={'ball'}
+          type={props.type}
+          setType={setType}
         />
         {/* <div className="block_one">
           <img

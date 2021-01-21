@@ -34,7 +34,7 @@ function CourseCategoryMenu(props) {
             props.setAll('')
           }}
         >
-          <li>多肉課程</li>
+          <li id="succlent">多肉課程</li>
         </a>
         <a
           className={isActive == 'ball' ? 'active' : 'default'}
@@ -46,7 +46,7 @@ function CourseCategoryMenu(props) {
             props.setAll('')
           }}
         >
-          <li>苔球課程</li>
+          <li id="ball">苔球課程</li>
         </a>
         <a
           className={isActive == 'flower' ? 'active' : 'default'}
@@ -58,7 +58,7 @@ function CourseCategoryMenu(props) {
             props.setAll('')
           }}
         >
-          <li>乾燥花課程</li>
+          <li id="flower">乾燥花課程</li>
         </a>
         <a
           className={isActive == 'other' ? 'active' : 'default'}
@@ -70,7 +70,7 @@ function CourseCategoryMenu(props) {
             props.setAll('')
           }}
         >
-          <li>其他植栽課程</li>
+          <li id="plant">其他植栽課程</li>
         </a>
       </ul>
     </div>

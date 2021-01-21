@@ -15,6 +15,7 @@ import { set } from 'mongoose'
 
 function CourseSearch(props) {
   console.log(props)
+  console.log(props.Guide_type)
   const [data, setData] = useState([]) //等第一次預設資料
   const [isLoading, setIsLoading] = useState(false)
 
@@ -23,6 +24,8 @@ function CourseSearch(props) {
 
   const [title, setTitle] = useState()
   const [subTitle, setSubTitle] = useState('')
+  const [clickTitle, setClickTitle] = useState()
+  const [clickSub, setClickSub] = useState()
 
   const [keyword, setKeyword] = useState('')
   // console.log(`current type is ${type}`)
@@ -36,14 +39,23 @@ function CourseSearch(props) {
   //     })
   //     .catch((error) => console.log(error))
   // }, [])
+  useEffect(() => {
+ setClickTitle(title)
+ setClickSub(subTitle)
+  },[title, subTitle])
 
   //預設初始資料(全部課程)
   useEffect(() => {
-    getAllData()
+    // getAllData()
     // setType(props.match.params.type)
+    setTimeout(() => {
+      document.getElementById('succlent').click()
+    }, 100)
+    // getTypeData()
+    // setType('succlent')
   }, [])
-  
-    //   setType(props.match.params.type)
+
+  //   setType(props.match.params.type)
 
   //全部課程
   useEffect(() => {
@@ -56,16 +68,16 @@ function CourseSearch(props) {
   useEffect(() => {
     getTypeData()
     setKeyword('')
+    setAll('')
   }, [type])
 
   const display = (
     <>
       <div className="course-search-content">
         <div className="course-search-content-top d-flex justify-content-between">
-          <CourseResultTitle title={title} subTitle={subTitle} />
+          <CourseResultTitle title={clickTitle} subTitle={clickSub} />
           <div className="search-input">
             <i
-              // onClick={() => {getSearch() setTitle('搜尋結果:'+ keyword)}}
               onClick={function () {
                 {
                   type === '' ? getAllSearch() : getSearch()
@@ -87,10 +99,13 @@ function CourseSearch(props) {
           </div>
         </div>
         <div className="course-search-content-display d-flex flex-wrap">
-          {data.length > 0 &&
+          {data.length > 0 ? (
             data.map((course) => (
               <CourseShowCard key={course._id} course={course}></CourseShowCard>
-            ))}
+            ))
+          ) : (
+            <h1 style={{ margin: 'auto', color: '#838383' }}>尚無此課程</h1>
+          )}
         </div>
       </div>
     </>
@@ -119,35 +134,7 @@ function CourseSearch(props) {
     // 要使用try-catch來作錯誤處理
     try {
       // 從伺服器得到資料
-      const response = await Axios('http://localhost:3001/courses/')
-      console.log(response)
-      console.log(response.data)
-
-      // 有資料的話
-      if (response.data) {
-        setData(response.data)
-      }
-
-      // 最後關起spinner，改呈現真正資料
-      setTimeout(() => {
-        setIsLoading(false)
-      }, 1000)
-    } catch (error) {
-      // 發生錯誤的處理情況
-      alert('無法得到伺服器資料，請稍後再重試')
-      console.log(error)
-    }
-  }
-
-  //主題式類別資料
-  async function getTypeData() {
-    //開始載入資料，先出現spinner
-    setIsLoading(true)
-
-    // 要使用try-catch來作錯誤處理
-    try {
-      // 從伺服器得到資料
-      const response = await Axios(`http://localhost:3001/courses/type/${type}`)
+      const response = await Axios.get('http://localhost:3001/courses/')
       console.log(response)
       console.log(response.data)
 
@@ -167,6 +154,37 @@ function CourseSearch(props) {
     }
   }
 
+  //主題式類別資料
+  async function getTypeData() {
+    //開始載入資料，先出現spinner
+    setIsLoading(true)
+
+    // 要使用try-catch來作錯誤處理
+    try {
+      // 從伺服器得到資料
+      const response = await Axios.get(
+        `http://localhost:3001/courses/type/${type}`
+      )
+      console.log(response)
+      console.log(response.data)
+
+      // 有資料的話
+      if (response.data) {
+        setData(response.data)
+      }
+
+      // 最後關起spinner，改呈現真正資料
+      setTimeout(() => {
+        setIsLoading(false)
+      }, 1500)
+    } catch (error) {
+      // 發生錯誤的處理情況
+      alert('無法得到伺服器資料，請稍後再重試')
+      console.log(error)
+    }
+  }
+
+  //所有關鍵字搜尋
   async function getAllSearch() {
     //開始載入資料，先出現spinner
     setIsLoading(true)
@@ -174,7 +192,7 @@ function CourseSearch(props) {
     // 要使用try-catch來作錯誤處理
     try {
       // 從伺服器得到資料
-      const response = await Axios(
+      const response = await Axios.get(
         `http://localhost:3001/courses/keywordfor/${keyword}`
       )
       console.log(response)
@@ -195,6 +213,8 @@ function CourseSearch(props) {
       console.log(error)
     }
   }
+
+  //關鍵字類別搜尋
   async function getSearch() {
     //開始載入資料，先出現spinner
     setIsLoading(true)
@@ -202,7 +222,7 @@ function CourseSearch(props) {
     // 要使用try-catch來作錯誤處理
     try {
       // 從伺服器得到資料
-      const response = await Axios(
+      const response = await Axios.get(
         `http://localhost:3001/courses/keyword/${keyword}/${type}`
       )
       console.log(response)
@@ -239,23 +259,6 @@ function CourseSearch(props) {
             setTitle={setTitle}
             setSubTitle={setSubTitle}
           />
-          {/* <div className="course-search-content">
-            <div className="course-search-content-top d-flex justify-content-between">
-              <CourseResultTitle />
-              <div className="search-input">
-                <i className="fas fa-search" style={{ fontSize: '18px' }}></i>
-                <input type="text" size="15" placeholder="搜尋課程" />
-              </div>
-            </div>
-            <div className="course-search-content-display d-flex flex-wrap">
-              {data.map((course) => (
-                <CourseShowCard
-                  key={course._id}
-                  course={course}
-                ></CourseShowCard>
-              ))}
-            </div>
-          </div> */}
           {isLoading ? spinner : display}
         </div>
       </div>

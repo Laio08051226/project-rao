@@ -1,11 +1,19 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './CourseTypeFlower.scss'
 import { devUrl } from '../../../config/index'
 import { Button } from 'react-bootstrap'
 import CourseBlockOne from '../courseBlockOne/CourseBlockOne'
 import CourseBlockTwo from '../courseBlockTwo/CourseBlockTwo'
 
-function CourseTypeFlower() {
+function CourseTypeFlower(props) {
+  const { type, setType } = useState()
+  console.log(type)
+
+    //傳回上層
+  // useEffect(() => {
+  //   props.setClickType(type)
+  // }, [type])
+
   return (
     <div className="r-course-guide r-type-flower">
       <div className="title">
@@ -24,7 +32,8 @@ function CourseTypeFlower() {
         </div> */}
         <CourseBlockOne
           imgUrl1={'/images/course/course-guide/demo_flower1.jpg'}
-          type={'flower'}
+          type={props.type}
+          setType={setType}
         />
         {/* <div className="block_two">
           <img
@@ -40,7 +49,8 @@ function CourseTypeFlower() {
         <CourseBlockTwo
           imgUrl2={'/images/course/course-guide/demo_flower2.jpg'}
           imgUrl3={'/images/course/course-guide/demo_flower3.jpg'}
-          type={'flower'}
+          type={props.type}
+          setType={setType}
         />
       </div>
     </div>
