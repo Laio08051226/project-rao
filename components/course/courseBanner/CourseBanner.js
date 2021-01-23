@@ -44,6 +44,7 @@ function CourseBanner() {
         keyBoardControl={true}
         removeArrowOnDeviceType={['tablet', 'mobile']}
         className="r-course-carouse"
+        infinite={true}
       >
         <img src={imgArr[0]} style={{ width: '100%' }} alt="" />
         <img src={imgArr[1]} style={{ width: '100%' }} alt="" />

@@ -1,8 +1,7 @@
 import React from 'react'
-import { devUrl } from '../../../config/index'
 import { NavLink } from 'react-router-dom'
 
-function TestBreadcrumb(props) {
+function CourseBreadcrumb(props) {
   console.log(props)
   return (
     <>
@@ -18,12 +17,17 @@ function TestBreadcrumb(props) {
               手作課程
             </NavLink>
           </li>
+          <li className="breadcrumb-item">
+            <NavLink to="/course/search" style={{ color: '#494949' }}>
+              課程搜尋
+            </NavLink>
+          </li>
           <li
             className="breadcrumb-item active"
             aria-current="page"
             style={{ color: '#d1cfcf' }}
           >
-            課程搜尋
+            {props.course}
           </li>
         </ol>
       </nav>
@@ -31,4 +35,4 @@ function TestBreadcrumb(props) {
   )
 }
 
-export default TestBreadcrumb
+export default CourseBreadcrumb

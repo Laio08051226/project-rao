@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
+import Aos from 'aos'
+import 'aos/dist/aos.css'
 
 //元件匯入
 import CourseBanner from '../components/course/courseBanner/CourseBanner'
@@ -22,6 +24,10 @@ function CourseGuide(props) {
   // useEffect(() => {
   //   props.setFinalType(clickType)
   // }, [clickType])
+
+  useEffect(() => {
+    Aos.init({ duration: 2000 })
+  })
   return (
     <>
       <CourseBanner />
@@ -29,13 +35,13 @@ function CourseGuide(props) {
         <Scroll />
         <ScrollTop />
         {/* <CourseTypeSucculent type={'succlent'} setClickType={setClickType} /> */}
-        <CourseTypeSucculent type={'succlent'} />
+        <CourseTypeSucculent type={'succlent'} data-aos="fade-up" />
         {/* <CourseTypeBall type={'ball'} setClickType={setClickType} /> */}
-        <CourseTypeBall type={'ball'} />
+        <CourseTypeBall type={'ball'} data-aos="fade-up" />
         {/* <CourseTypeFlower type={'flower'} setClickType={setClickType} /> */}
-        <CourseTypeFlower type={'flower'} />
+        <CourseTypeFlower type={'flower'} data-aos="fade-up" />
         {/* <CourseTypePlant type={'plant'} setClickType={setClickType} /> */}
-        <CourseTypePlant type={'plant'} />
+        <CourseTypePlant type={'plant'} data-aos="fade-up" />
         <CourseBookingFlow />
         <CourseMonth />
         <CoursePast />

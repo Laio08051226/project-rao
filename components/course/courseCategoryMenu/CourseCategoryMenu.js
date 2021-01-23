@@ -11,7 +11,7 @@ function CourseCategoryMenu(props) {
 
   return (
     <div className="r-course-category pc">
-      <ul className="course-category-searchbar">
+      <ul className="course-category-searchbar position-sticky" style={{top: '10px'}}>
         <li className="category-title">課程分類</li>
         <a
           className={isActive == 'all' ? 'active' : 'default'}

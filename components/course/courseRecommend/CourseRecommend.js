@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import './CourseMonth.scss'
+import './CourseRecommend.scss'
 import Carousel from 'react-multi-carousel'
 import { NavLink } from 'react-router-dom'
 import Axios from 'axios'
+
+// import { response } from 'express'
 
 const responsive = {
   desktop: {
@@ -22,10 +24,13 @@ const responsive = {
   },
 }
 
-function CourseMonth() {
+function CourseRecommend(props) {
   const [data, setData] = useState([])
+
   useEffect(() => {
-    Axios.get(`http://localhost:3001/courses/month/`).then((response) => {
+    Axios.get(
+      `http://localhost:3001/courses/recommend/${props.id}/${props.type}`
+    ).then((response) => {
       if (response) {
         console.log(response)
         setData(response.data)
@@ -34,16 +39,17 @@ function CourseMonth() {
   }, [])
   return (
     <>
-      <div className="r-month-courses">
+      <div className="r-re-courses">
         <div className="title">
-          <h1>本月開課</h1>
-          <h5>Courses of The Month</h5>
+          <h1>其他推薦課程</h1>
+          <h5>Other Courses</h5>
         </div>
 
         <div className="courses-card-wrapper">
           <Carousel
             responsive={responsive}
             className="r-course-card-carouse"
+            infinite={true}
             // itemClass="carousel-item-padding-20-px"
             containerClass="r-carousel-container"
           >
@@ -69,33 +75,6 @@ function CourseMonth() {
                 </div>
               )
             })}
-
-            {/* <div className="card" style={{ width: '18.75rem' }}>
-              <a href={`/course/12`}>
-                <img
-                  src={devUrl + '/images/course/show/好運多肉巡禮.jpg'}
-                  className="card-img-top"
-                  alt="..."
-                />
-              </a>
-              <div className="card-body">
-                <h5 className="card-title">好運多肉巡禮</h5>
-                <p className="card-text">日期: 2021-02-10</p>
-              </div>
-            </div> */}
-            {/* <div className="card" style={{ width: '18.75rem' }}>
-              <a href={`/course/6`}>
-                <img
-                  src={devUrl + '/images/course/show/苔球手作體驗課.jpg'}
-                  className="card-img-top"
-                  alt="..."
-                />
-              </a>
-              <div className="card-body">
-                <h5 className="card-title">苔球手作體驗課</h5>
-                <p className="card-text">日期: 2021-03-01</p>
-              </div>
-            </div> */}
           </Carousel>
         </div>
       </div>
@@ -103,4 +82,4 @@ function CourseMonth() {
   )
 }
 
-export default CourseMonth
+export default CourseRecommend

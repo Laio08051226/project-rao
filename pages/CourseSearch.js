@@ -11,7 +11,6 @@ import CourseCategoryMenu from '../components/course/courseCategoryMenu/CourseCa
 import TestBreadcrumb from '../components/main/TestBreadcrumb/TestBreadcrumb'
 import CourseResultTitle from '../components/course/courseResultTitle/CourseResultTitle'
 import CourseShowCard from '../components/course/courseShowCard/CourseShowCard'
-import { set } from 'mongoose'
 
 function CourseSearch(props) {
   console.log(props)
@@ -40,9 +39,9 @@ function CourseSearch(props) {
   //     .catch((error) => console.log(error))
   // }, [])
   useEffect(() => {
- setClickTitle(title)
- setClickSub(subTitle)
-  },[title, subTitle])
+    setClickTitle(title)
+    setClickSub(subTitle)
+  }, [title, subTitle])
 
   //預設初始資料(全部課程)
   useEffect(() => {
@@ -95,6 +94,13 @@ function CourseSearch(props) {
               placeholder="搜尋課程"
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
+              // onKeyPress={(e) => {
+              //   {
+              //     e.keyCode == 13 && type === '' ? getAllSearch() : getSearch()
+              //   }
+              //   setTitle('搜尋結果:' + keyword)
+              //   setSubTitle('Search results')
+              // }}
             />
           </div>
         </div>
@@ -104,24 +110,51 @@ function CourseSearch(props) {
               <CourseShowCard key={course._id} course={course}></CourseShowCard>
             ))
           ) : (
-            <h1 style={{ margin: 'auto', color: '#838383' }}>尚無此課程</h1>
+            <div style={{ margin: 'auto' }}>
+              <img
+                style={{
+                  width: '300px',
+                  paddingRight: '25px',
+                  // border: '1px solid red',
+                }}
+                alt=""
+                src="http://localhost:3000/images/svg/noresult.gif"
+              />
+              <div>
+                <h4 style={{ textAlign: 'center' }}>尚無此課程</h4>
+              </div>
+            </div>
           )}
         </div>
       </div>
     </>
   )
+  // {!props ? (<div>not data</div>): (<div>有資料</div>)}
+  // const spinner = (
+  //   <>
+  //     <div
+  //       className="d-flex align-items-center text-center"
+  //       style={{ margin: '0 auto' }}
+  //     >
+  //       <strong>Loading...</strong>
+  //       <div
+  //         className="spinner-border ml-auto"
+  //         role="status"
+  //         aria-hidden="true"
+  //       ></div>
+  //     </div>
+  //   </>
+  // )
   const spinner = (
     <>
-      <div
-        className="d-flex align-items-center text-center"
-        style={{ margin: '0 auto' }}
-      >
-        <strong>Loading...</strong>
-        <div
-          className="spinner-border ml-auto"
-          role="status"
-          aria-hidden="true"
-        ></div>
+      <div className="d-flex">
+        <img
+          style={{ width: '300px', margin: '0 400px' }}
+          alt="no"
+          src="http://localhost:3000/images/svg/spinner.gif"
+        />
+        {/* <h4 className="mr-2">Loading... </h4> */}
+        {/* <div className="spinner-border ms-auto" role="status" aria-hidden="true"></div> */}
       </div>
     </>
   )
@@ -254,11 +287,29 @@ function CourseSearch(props) {
         <TestBreadcrumb />
         <div className="r-course-search-wrapper d-flex">
           <CourseCategoryMenu
+            className="fixed-top"
             setAll={setAll}
             setType={setType}
             setTitle={setTitle}
             setSubTitle={setSubTitle}
           />
+          {/* <div className="course-search-content">
+            <div className="course-search-content-top d-flex justify-content-between">
+              <CourseResultTitle />
+              <div className="search-input">
+                <i className="fas fa-search" style={{ fontSize: '18px' }}></i>
+                <input type="text" size="15" placeholder="搜尋課程" />
+              </div>
+            </div>
+            <div className="course-search-content-display d-flex flex-wrap">
+              {data.map((course) => (
+                <CourseShowCard
+                  key={course._id}
+                  course={course}
+                ></CourseShowCard>
+              ))}
+            </div>
+          </div> */}
           {isLoading ? spinner : display}
         </div>
       </div>
